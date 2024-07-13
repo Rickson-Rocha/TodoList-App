@@ -26,7 +26,7 @@ import jakarta.persistence.ManyToOne;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class Task {
 
     public static final String TABLE_NAME = "task";

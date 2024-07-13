@@ -31,13 +31,8 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class User {
-    public static final String TABLE_NAME = "\"user\"";
+    public static final String TABLE_NAME = "users";
 
-    public interface createUser {
-    }
-
-    public interface updateUser {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,18 +40,19 @@ public class User {
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = 100)
-    @NotBlank(groups = createUser.class)
-    @Size(groups = createUser.class, min = 3, max = 100)
+    @NotBlank
+    @Size( min = 3, max = 100)
     private String userName;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email(groups = createUser.class)
+    @NotBlank(message = "O campo 'email' não pode estar em branco")
+    @Email(message = "Formato de e-mail inválido")
     private String email;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", nullable = false, length = 60)
-    @NotBlank(groups = { createUser.class, updateUser.class })
-    @Size(groups = { createUser.class, updateUser.class }, min = 8, max = 40)
+    @NotBlank
+    @Size(min = 8, max = 40)
     private String password;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
