@@ -12,11 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import com.br.todolist.service.UserService;
 
-import jakarta.validation.Valid;
 
 import com.br.todolist.model.user.User;
-import com.br.todolist.model.user.User.createUser;
-import com.br.todolist.model.user.User.updateUser;
+
 
 
 @RestController
@@ -32,8 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    @Validated(createUser.class)
-    public ResponseEntity<Void> create(@Valid @RequestBody User user, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<Void> create(@Validated @RequestBody User user, UriComponentsBuilder uriBuilder){
         User createUser = userService.createUser(user);
         var uri = uriBuilder.path("/user/{id}").buildAndExpand(createUser.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -46,9 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @Validated(updateUser.class)
-    public ResponseEntity<Void>update(@Valid @RequestBody User user, @PathVariable Long id){
-        user.setId(null);
+    public ResponseEntity<Void>update(@Validated  @RequestBody User user, @PathVariable Long id){
         this.userService.updateUser(user);
         return ResponseEntity.noContent().build();
     }
