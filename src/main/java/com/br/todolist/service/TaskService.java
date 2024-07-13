@@ -2,8 +2,11 @@ package com.br.todolist.service;
 import org.springframework.stereotype.Service;
 import com.br.todolist.repository.TaskRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.br.todolist.exceptions.DataIntegrityException;
+import com.br.todolist.exceptions.ResourceNotFoundException;
 import com.br.todolist.model.task.Task;
-import com.br.todolist.model.user.User;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +22,8 @@ public class TaskService {
 
     public Task findById(Long id){
      Optional<Task> task = this.taskRepository.findById(id);
-        return task.orElseThrow(()-> new RuntimeException(
-     "Task not found! id: " + id + "Type" + User.class.getName()));
+        return task.orElseThrow(()-> new ResourceNotFoundException(
+        "Task not found! id: " + id + "Type" + Task.class.getName()));
     }
 
     public List<Task> findAllByUserId(Long userId){
@@ -31,9 +34,13 @@ public class TaskService {
     @Transactional
     public Task createTask(Task task){
       task.setId(null);
-      task.setUser(task.getUser());
-      Task  newTask =  this.taskRepository.save(task);
-      return newTask;
+      try{
+        task.setUser(task.getUser());
+        Task  newTask =  this.taskRepository.save(task);
+        return newTask;
+      }catch(DataIntegrityException e ){
+         throw new DataIntegrityException(" Data integrity  violation:" + e.getMessage());
+      }
     }
 
    @Transactional
