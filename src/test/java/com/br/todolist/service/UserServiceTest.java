@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.br.todolist.exceptions.DataIntegrityException;
 import com.br.todolist.exceptions.EntityInUseException;
@@ -73,7 +72,7 @@ public class UserServiceTest {
 
     @Test
     public void testCreateUser_DataIntegrityViolation() {
-        when(userRepository.save(any(User.class))).thenThrow(DataIntegrityViolationException.class);
+        when(userRepository.save(any(User.class))).thenThrow(DataIntegrityException.class);
 
         assertThrows(DataIntegrityException.class, () -> userService.createUser(user));
     }
@@ -93,7 +92,7 @@ public class UserServiceTest {
     @Test
     public void testUpdateUser_DataIntegrityViolation() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userRepository.save(any(User.class))).thenThrow(DataIntegrityViolationException.class);
+        when(userRepository.save(any(User.class))).thenThrow(DataIntegrityException.class);
 
         assertThrows(DataIntegrityException.class, () -> userService.updateUser(user));
     }
@@ -112,7 +111,7 @@ public class UserServiceTest {
     @Test
     public void testDeleteUser_EntityInUse() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        doThrow(DataIntegrityViolationException.class).when(userRepository).deleteById(1L);
+        doThrow(DataIntegrityException.class).when(userRepository).deleteById(1L);
 
         assertThrows(EntityInUseException.class, () -> userService.deleteUser(1L));
     }
