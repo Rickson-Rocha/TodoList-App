@@ -46,12 +46,15 @@ public class TaskService {
    @Transactional
    public Task updateTask(Task task){
     Task newTask = findById(task.getId());
-    newTask.setName(task.getName());
-    newTask.setDescription(task.getDescription());
-    newTask.setStartAt(task.getStartAt());
-    newTask.setEndAt(task.getEndAt());
-    return this.taskRepository.save(newTask);
-
+    try{
+      newTask.setName(task.getName());
+      newTask.setDescription(task.getDescription());
+      newTask.setStartAt(task.getStartAt());
+      newTask.setEndAt(task.getEndAt());
+      return this.taskRepository.save(newTask);
+    }catch(DataIntegrityException e){
+      throw new DataIntegrityException(" Data integrity  violation:" + e.getMessage());
+    }
   }
 
   public void deleteTask(Long id){
