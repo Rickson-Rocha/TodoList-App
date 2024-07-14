@@ -106,6 +106,9 @@ public class UserServiceTest {
         assertDoesNotThrow(() -> userService.deleteUser(1L));
     }
 
+    
+    
+   
     @Test
     public void testDeleteUser_EntityInUse() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -113,5 +116,8 @@ public class UserServiceTest {
 
         assertThrows(EntityInUseException.class, () -> userService.deleteUser(1L));
     }
+    
+   
 }
+
 
