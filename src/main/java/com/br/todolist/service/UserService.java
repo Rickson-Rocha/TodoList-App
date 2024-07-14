@@ -1,5 +1,4 @@
 package com.br.todolist.service;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import com.br.todolist.repository.UserRepository;
 import com.br.todolist.exceptions.DataIntegrityException;
@@ -52,7 +51,7 @@ public class UserService {
     findById(id);
     try{
         this.userRepository.deleteById(id);
-    }catch (DataIntegrityViolationException e){
+    }catch (DataIntegrityException e){
       throw new EntityInUseException("Cannot delete has there is related entity");
     }
    
