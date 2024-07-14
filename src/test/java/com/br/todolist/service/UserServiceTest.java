@@ -117,12 +117,7 @@ public class UserServiceTest {
         assertThrows(EntityInUseException.class, () -> userService.deleteUser(1L));
     }
     
-    // Esse teste falhará intecionalmente. Lançara uma RunTimeException.
-    @Test
-    public void testFailingTest() {
-        assertThrows(RuntimeException.class, () -> {
-            throw new RuntimeException("This is a failing test");
-        });
-    }
+   
 }
+
 
