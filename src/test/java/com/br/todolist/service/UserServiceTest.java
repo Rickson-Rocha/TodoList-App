@@ -106,12 +106,23 @@ public class UserServiceTest {
         assertDoesNotThrow(() -> userService.deleteUser(1L));
     }
 
+    
+    
+   
     @Test
     public void testDeleteUser_EntityInUse() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         doThrow(DataIntegrityViolationException.class).when(userRepository).deleteById(1L);
 
         assertThrows(EntityInUseException.class, () -> userService.deleteUser(1L));
+    }
+    
+    // Esse teste falhará intecionalmente. Lançara uma RunTimeException.
+    @Test
+    public void testFailingTest() {
+        assertThrows(RuntimeException.class, () -> {
+            throw new RuntimeException("This is a failing test");
+        });
     }
 }
 
