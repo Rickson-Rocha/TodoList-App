@@ -95,7 +95,7 @@ public class UserServiceTest {
 
         assertThrows(DataIntegrityException.class, () -> userService.updateUser(user));
     }
-
+    //refact method
     @Test
     public void testDeleteUser_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
