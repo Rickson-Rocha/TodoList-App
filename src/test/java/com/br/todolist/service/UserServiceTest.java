@@ -77,7 +77,7 @@ public class UserServiceTest {
 
         assertThrows(DataIntegrityException.class, () -> userService.createUser(user));
     }
-
+    
     @Test
     public void testUpdateUser_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
